@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"k8s.io/client-go/rest"
+	"reflect"
 
 	//	"time"
 
@@ -51,7 +52,7 @@ func NewClient() (client.Client, error) {
 	})
 }
 
-func main() {
+func main__() {
 	if err := run(); err != nil {
 		panic(err)
 	}
@@ -72,4 +73,16 @@ func run() error {
 		fmt.Println(n.Name)
 	}
 	return nil
+}
+
+type MyS struct {
+}
+
+func main() {
+	fmt.Println(kind(MyS{}))
+	fmt.Println(kind(&MyS{}))
+}
+
+func kind(v interface{}) string {
+	return reflect.Indirect(reflect.ValueOf(v)).Type().Name()
 }
